@@ -1,6 +1,7 @@
 using Amazon.CDK;
 using Amazon.CDK.Pipelines;
 using Constructs;
+using Pha3l.DotnetCdkLambda.Cdk.Stages;
 
 namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
 {
@@ -21,11 +22,18 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                     {
                         "dotnet build",
                         "npx cdk synth"
-                    },
-                    
-                    
+                    }
                 })
             });
+
+            pipeline.AddStage(new AppStage(this, "PreProd", new StageProps
+            {
+                Env = new Environment
+                {
+                    Account = "004969436191",
+                    Region = "us-west-2"
+                }
+            }));
         }
     }
 }
