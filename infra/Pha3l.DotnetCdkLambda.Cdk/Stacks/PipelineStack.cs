@@ -20,8 +20,9 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                     Commands = new[]
                     {
                         "dotnet build",
-                        "cd infra/Pha3l.DotnetCdkLambda.Cdk && npx cdk synth"
+                        "npx cdk synth"
                     },
+                    
                     
                 })
             });
