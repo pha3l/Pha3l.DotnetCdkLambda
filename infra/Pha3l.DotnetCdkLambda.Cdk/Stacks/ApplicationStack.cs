@@ -1,5 +1,6 @@
 using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
+using Amazon.CDK.AWS.Lambda;
 using Constructs;
 using Pha3l.DotnetCdkLambda.Cdk.Constructs;
 
@@ -19,7 +20,7 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
 
             var api = new LambdaRestApi(this, "Api", new LambdaRestApiProps
             {
-                Handler = functionOne
+                Handler = functionOne.Function
             });
 
             this.UrlOutput = new CfnOutput(this, "Url", new CfnOutputProps
