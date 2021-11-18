@@ -12,16 +12,18 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
     {
         public PipelineStack(Construct scope, string id, StackProps props = null) : base(scope, id, props)
         {
+            var input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main", new GitHubSourceOptions
+            {
+                Authentication = SecretValue.SecretsManager("GithubToken")
+            });
+            
             var pipeline = new CodePipeline(this, "Pipeline", new CodePipelineProps
             {
                 CrossAccountKeys = true,
                 PipelineName = "ApplicationPipeline",
                 Synth = new CodeBuildStep("Synth", new CodeBuildStepProps
                 {
-                    Input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main", new GitHubSourceOptions
-                    {
-                        Authentication = SecretValue.SecretsManager("GithubToken")
-                    }),
+                    Input = input,
                     Commands = new[]
                     {
                         "dotnet build",
@@ -73,7 +75,7 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                 {
                     new CodeBuildStep("IntegrationTests", new CodeBuildStepProps
                     {
-                        Input = pipeline.CloudAssemblyFileSet,
+                        Input = input,
                         InstallCommands = new[]
                         {
                             "dotnet tool install -g trx2junit",
