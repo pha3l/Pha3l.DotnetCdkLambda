@@ -107,7 +107,7 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                         },
                         Env = new Dictionary<string, string>
                         {
-                            { "ENDPOINT", preprod.UrlOutput1.Value.ToString() }
+                            { "ENDPOINT", "https://esne6g6ty0.execute-api.us-west-2.amazonaws.com/prod/" }
                         }
                     })
                 }
