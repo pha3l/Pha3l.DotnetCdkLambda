@@ -22,7 +22,7 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Constructs
                 Bundling = new BundlingOptions
                 {
                     Command = BundlingCommand(Project),
-                    Image = Runtime.DOTNET_CORE_3_1.BundlingImage,
+                    Image = new DockerImage("public.ecr.aws/sam/build-dotnetcore3.1:latest"),
                     User = "root"
                 }
             });

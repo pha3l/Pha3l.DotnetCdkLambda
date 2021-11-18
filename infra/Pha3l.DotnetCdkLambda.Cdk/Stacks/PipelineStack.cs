@@ -1,4 +1,5 @@
 using Amazon.CDK;
+using Amazon.CDK.AWS.CodeBuild;
 using Amazon.CDK.Pipelines;
 using Constructs;
 using Pha3l.DotnetCdkLambda.Cdk.Stages;
@@ -12,16 +13,36 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
             var pipeline = new CodePipeline(this, "Pipeline", new CodePipelineProps
             {
                 PipelineName = "ApplicationPipeline",
-                Synth = new ShellStep("Synth", new ShellStepProps
+                // Synth = new ShellStep("Synth", new ShellStepProps
+                // {
+                //     Input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main", new GitHubSourceOptions
+                //     {
+                //         Authentication = SecretValue.SecretsManager("GithubToken")
+                //     }),
+                //     Commands = new[]
+                //     {
+                //         "dotnet build",
+                //         "npx cdk synth"
+                //     },
+                
+                //     
+                // })
+                Synth = new CodeBuildStep("Synth", new CodeBuildStepProps
                 {
                     Input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main", new GitHubSourceOptions
                     {
                         Authentication = SecretValue.SecretsManager("GithubToken")
                     }),
-                    Commands = new[]
+                    Commands = new []
                     {
                         "dotnet build",
                         "npx cdk synth"
+                    },
+                    BuildEnvironment = new BuildEnvironment
+                    {
+                        Privileged = true,
+                        BuildImage = LinuxBuildImage.STANDARD_5_0,
+                        ComputeType = ComputeType.SMALL
                     }
                 })
             });
