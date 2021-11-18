@@ -55,6 +55,15 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                     Region = "us-west-2"
                 }
             }));
+            
+            pipeline.AddStage(new AppStage(this, "Prod", new StageProps
+            {
+                Env = new Environment
+                {
+                    Account = "004969436191",
+                    Region = "us-east-1"
+                }
+            }));
         }
     }
 }
