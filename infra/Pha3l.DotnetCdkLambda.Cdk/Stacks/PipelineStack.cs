@@ -13,10 +13,14 @@ namespace Pha3l.DotnetCdkLambda.Cdk.Stacks
                 PipelineName = "ApplicationPipeline",
                 Synth = new ShellStep("Synth", new ShellStepProps
                 {
-                    Input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main"),
+                    Input = CodePipelineSource.GitHub("pha3l/Pha3l.DotnetCdkLambda", "main", new GitHubSourceOptions
+                    {
+                        Authentication = SecretValue.SecretsManager("GithubToken")
+                    }),
                     Commands = new[]
                     {
                         "dotnet build",
+                        "cd infra/Pha3l.DotnetCdkLambda.Cdk",
                         "npx cdk synth"
                     }
                 })
