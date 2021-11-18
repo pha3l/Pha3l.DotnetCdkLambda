@@ -3,3 +3,4 @@
 */**/netcoreapp*
 */**/obj
 cdk.out
+*/**/TestResults
